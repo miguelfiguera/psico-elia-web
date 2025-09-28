@@ -6,10 +6,14 @@ import Link from 'next/link';
 import { getCurrentUser, logoutAction } from '@/lib/actions/auth';
 import {
   Home,
+  Users,
   Calendar,
   CreditCard,
-  User,
+  Clock,
+  Megaphone,
+  Stethoscope,
   LogOut,
+  User,
   Menu,
   X,
   Heart
@@ -23,7 +27,7 @@ interface UserProfile {
   is_admin: boolean;
 }
 
-export default function PatientsLayout({
+export default function AdminLayout({
   children,
 }: {
   children: React.ReactNode;
@@ -42,14 +46,8 @@ export default function PatientsLayout({
     try {
       const currentUser = await getCurrentUser();
 
-      if (!currentUser) {
+      if (!currentUser || !currentUser.profile?.is_admin) {
         router.push('/login');
-        return;
-      }
-
-      // Redirect admin users to admin panel
-      if (currentUser.profile?.is_admin) {
-        router.push('/admin/dashboard');
         return;
       }
 
@@ -72,10 +70,13 @@ export default function PatientsLayout({
   };
 
   const navigation = [
-    { name: 'Dashboard', href: '/patients/dashboard', icon: Home },
-    { name: 'Mis Citas', href: '/patients/appointments', icon: Calendar },
-    { name: 'Pagos', href: '/patients/payments', icon: CreditCard },
-    { name: 'Mi Perfil', href: '/patients/profile', icon: User },
+    { name: 'Dashboard', href: '/admin/dashboard', icon: Home },
+    { name: 'Pacientes', href: '/admin/patients', icon: Users },
+    { name: 'Citas', href: '/admin/appointments', icon: Calendar },
+    { name: 'Pagos', href: '/admin/payments', icon: CreditCard },
+    { name: 'Disponibilidad', href: '/admin/availability', icon: Clock },
+    { name: 'Anuncios', href: '/admin/announcements', icon: Megaphone },
+    { name: 'Servicios', href: '/admin/services', icon: Stethoscope },
   ];
 
   if (loading) {
@@ -110,7 +111,7 @@ export default function PatientsLayout({
               <div className="bg-blue-600 rounded-lg p-2">
                 <Heart className="h-6 w-6 text-white" />
               </div>
-              <span className="ml-2 text-xl font-bold text-gray-900">Portal Paciente</span>
+              <span className="ml-2 text-xl font-bold text-gray-900">Admin Panel</span>
             </div>
             <nav className="mt-5 px-2 space-y-1">
               {navigation.map((item) => {
@@ -144,7 +145,7 @@ export default function PatientsLayout({
               <div className="bg-blue-600 rounded-lg p-2">
                 <Heart className="h-6 w-6 text-white" />
               </div>
-              <span className="ml-2 text-xl font-bold text-gray-900">Portal Paciente</span>
+              <span className="ml-2 text-xl font-bold text-gray-900">Admin Panel</span>
             </div>
             <nav className="mt-8 flex-1 px-2 bg-white space-y-1">
               {navigation.map((item) => {
@@ -188,7 +189,7 @@ export default function PatientsLayout({
             <div className="flex justify-between items-center h-16">
               <div className="flex items-center">
                 <h1 className="text-xl font-semibold text-gray-900 ml-2 md:ml-0">
-                  Portal del Paciente
+                  Panel de Administración
                 </h1>
               </div>
 

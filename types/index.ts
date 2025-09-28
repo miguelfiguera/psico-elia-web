@@ -69,3 +69,85 @@ export interface CreatePaymentData {
   tx_id?: string;
   notes?: string;
 }
+
+export interface TimeOff {
+  id: string;
+  title: string;
+  description?: string;
+  start_date: string;
+  end_date: string;
+  is_active: boolean;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface Announcement {
+  id: string;
+  title: string;
+  description?: string;
+  content?: string;
+  announcement_type: 'promotion' | 'workshop' | 'masterclass' | 'general';
+  start_date?: string;
+  end_date?: string;
+  is_active: boolean;
+  priority: number;
+  target_audience: 'patients' | 'public' | 'all';
+  created_at: string;
+  updated_at: string;
+}
+
+export interface Service {
+  id: string;
+  name: string;
+  description?: string;
+  duration_minutes: number;
+  price: number;
+  is_active: boolean;
+  category: 'therapy' | 'evaluation' | 'workshop' | 'consultation';
+  created_at: string;
+  updated_at: string;
+}
+
+export interface PaymentStats {
+  total_amount: number;
+  confirmed_amount: number;
+  pending_amount: number;
+  rejected_amount: number;
+  total_count: number;
+  confirmed_count: number;
+  pending_count: number;
+  rejected_count: number;
+}
+
+export interface AppointmentSummary {
+  total_count: number;
+  scheduled_count: number;
+  completed_count: number;
+  cancelled_count: number;
+}
+
+export interface CreateTimeOffData {
+  title: string;
+  description?: string;
+  start_date: string;
+  end_date: string;
+}
+
+export interface CreateAnnouncementData {
+  title: string;
+  description?: string;
+  content?: string;
+  announcement_type: Announcement['announcement_type'];
+  start_date?: string;
+  end_date?: string;
+  priority?: number;
+  target_audience?: Announcement['target_audience'];
+}
+
+export interface CreateServiceData {
+  name: string;
+  description?: string;
+  duration_minutes: number;
+  price: number;
+  category: Service['category'];
+}
